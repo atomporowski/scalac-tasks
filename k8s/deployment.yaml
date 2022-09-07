@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-api-deploy
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simple-api
+  template:
+    metadata:
+      labels:
+        app: simple-api
+    spec:
+      containers:
+      - name: api-bash
+        image: 996221262654.dkr.ecr.us-east-1.amazonaws.com/api-bash:latest
+        ports:
+        - containerPort: 80
