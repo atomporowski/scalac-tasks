@@ -1,4 +1,7 @@
 # Scalac recruitment task
+## General info
+
+All tasks resolved using AWS sandbox, that's why I didn't remove access or secret keys. :) 
 
 ## Table od contents
 
@@ -23,13 +26,13 @@ uvicorn main:app --reload
 
 Once you see `Uvicorn running on http://127.0.0.1:8000` you are good to check your API.
 
-![api1](./images/api1.png)
+![api1](documentation/images/api1.png)
 
 I decided to add one more API endpoint for individual jokes. It can be accessed by adding an ID to the address.
 
-![api2](./images/api2.png)
+![api2](documentation/images/api2.png)
 
-![api3](./images/api3.png)
+![api3](documentation/images/api3.png)
 
 ## Task two - Terraform
 
@@ -39,13 +42,13 @@ Files for this task are saved in *./eks* folder. Before we trigger our deploy, w
 of all make sure that configuration in *./eks/provider.tf* and *AWS CLI* is matching credentials from *Identity and
 Access Management (IAM)*.
 
-![tf1](./images/tf1.png)
+![tf1](documentation/images/tf1.png)
 
 Then check if subnet IDs in *./eks/eks.tf* are matching ones from *VPC*.
 
-![tf2](./images/tf2.png)
+![tf2](documentation/images/tf2.png)
 
-Note that there are four IDs to provide. Lines 36, 37 and 86, 87.
+Note that there are two IDs to provide in two different places. Lines 36, 37 and 86, 87.
 
 Now we are ready to start a deployment. Execute commands:
 
@@ -62,7 +65,7 @@ If everything completed successfully, we should see a prompt:
 
 and our EKS is ready:
 
-![tf3](./images/tf3.png)
+![tf3](documentation/images/tf3.png)
 
 ## Task three - k8s
 
@@ -79,7 +82,7 @@ aws ecr create-repository --repository-name api-bash --region us-east-1
 Now note down URI of the repository we just created, it will be needed to push the image. In my case it
 was `645643699318.dkr.ecr.us-east-1.amazonaws.com/api-bash`. But it will differ for others.
 
-![k8s1](./images/k8s1.png)
+![k8s1](documentation/images/k8s1.png)
 
 Now Docker login and pushing the image
 
@@ -92,12 +95,12 @@ docker push <repo_uri>/api-bash:latest
 
 At this point we should see our image in api-bash repo, and finally we can get to the k8s.
 
-![k8s2](./images/k8s2.png)
+![k8s2](documentation/images/k8s2.png)
 
 We need two files to deploy our service - *deployment.yaml* and *service.yaml*. Both can be found in the k8s folder.
 Only thing to be updated is image URI in *deployment.yaml*, line 18.
 
-![k8s3](./images/k8s3.png)
+![k8s3](documentation/images/k8s3.png)
 
 Now simply execute the following commands (from the k8s folder):
 
@@ -109,9 +112,9 @@ kubectl apply -f service.yaml
 
 Now the service should be running in our EKS. To get it's IP simply execute `kubectl get services`
 
-![k8s4](./images/k8s4.png)
+![k8s4](documentation/images/k8s4.png)
 
-![k8s5](./images/k8s5.png)
+![k8s5](documentation/images/k8s5.png)
 
 ## Task four - GitHub Actions
 
@@ -135,4 +138,4 @@ kubectl get --namespace default svc -w bash-api-chart
 
 In my case it was `a93eed3773bdc4bcca2d263f8f8cc144-1089964807.us-east-1.elb.amazonaws.com`.
 
-![helm2](./images/helm2.png)
+![helm2](documentation/images/helm2.png)
